@@ -16,5 +16,6 @@ namespace Grocery.Core.Models
             ProductId = productId;
             CategoryId = categoryId;
         }
+        public Product Product { get; set; } = new(0, "None", 0);
     }
 }
