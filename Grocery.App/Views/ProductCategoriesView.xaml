@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Grocery.App.Views.ProductCategoriesView"
+             xmlns:viewmodel="clr-namespace:Grocery.App.ViewModels"
+             xmlns:model="clr-namespace:Grocery.Core.Models;assembly=Grocery.Core"
+             x:DataType="viewmodel:ProductCategoriesViewModel"
+             Title="{Binding Title}">
+
+    <Grid RowDefinitions="Auto,*" 
+          RowSpacing="10"
+          Padding="10">
+
+        <!-- Header -->
+        <Label Grid.Row="0"
+               Text="{Binding Category.Name}"
+               FontSize="24"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               Margin="0,10"/>
+
+        <!-- Products List -->
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding ProductCategories}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:ProductCategory">
+                    <Frame Margin="5"
+                           Padding="10"
+                           BorderColor="LightGray"
+                           CornerRadius="8"
+                           HasShadow="True">
+                        <Grid ColumnDefinitions="*,Auto,Auto,Auto" 
+                              ColumnSpacing="10"
+                              VerticalOptions="Center">
+
+                            <!-- Product Info -->
+                            <VerticalStackLayout Grid.Column="0">
+                                <Label Text="{Binding Product.Name}"
+                                       FontSize="18"
+                                       FontAttributes="Bold"/>
+                                <Label Text="{Binding Product.ShelfLife, StringFormat='Houdbaar tot: {0:dd/MM/yyyy}'}"
+                                       FontSize="14"
+                                       TextColor="Gray"/>
+                            </VerticalStackLayout>
+
+                            <!-- Stock Display -->
+                            <Label Grid.Column="1"
+                                   Text="{Binding Product.Stock}"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"
+                                   MinimumWidthRequest="40"
+                                   HorizontalTextAlignment="Center"/>
+
+                            <!-- Decrease Button -->
+                            <Button Grid.Column="2"
+                                    Text="-"
+                                    FontSize="20"
+                                    WidthRequest="50"
+                                    HeightRequest="50"
+                                    CornerRadius="25"
+                                    BackgroundColor="LightCoral"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProductCategoriesViewModel}}, Path=DecreaseStockCommand}"
+                                    CommandParameter="{Binding ProductId}"/>
+
+                            <!-- Increase Button -->
+                            <Button Grid.Column="3"
+                                    Text="+"
+                                    FontSize="20"
+                                    WidthRequest="50"
+                                    HeightRequest="50"
+                                    CornerRadius="25"
+                                    BackgroundColor="LightGreen"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProductCategoriesViewModel}}, Path=IncreaseStockCommand}"
+                                    CommandParameter="{Binding ProductId}"/>
+
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <!-- Empty View -->
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center"
+                                     VerticalOptions="Center">
+                    <Label Text="Geen producten gevonden in deze categorie"
+                           FontSize="18"
+                           TextColor="Gray"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+    </Grid>
+
+</ContentPage>
