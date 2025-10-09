@@ -7,6 +7,8 @@ namespace Grocery.Core.Interfaces.Services
     {
         public List<ProductCategory> GetAll();
 
+        public List<ProductCategory> GetAllOnCategoryId(int categoryId);
+
         public ProductCategory Add(ProductCategory item);
 
         public ProductCategory? Delete(ProductCategory item);

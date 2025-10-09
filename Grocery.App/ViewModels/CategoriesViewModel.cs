@@ -17,17 +17,18 @@ namespace Grocery.App.ViewModels
 
         public CategoriesViewModel(ICategoryService categoryService, GlobalViewModel global)
         {
-            Title = "Categorieen";
             _categoryService = categoryService;
             Categories = new(_categoryService.GetAll());
-            Client = global.Client;
         }
 
         [RelayCommand]
         public async Task SelectCategory(Category category)
         {
-            Dictionary<string, object> paramater = new() { { nameof(Category), category } };
-            await Shell.Current.GoToAsync($"{nameof(Views.CategoriesView)}?Titel={category.Name}", true, paramater);
+            Dictionary<string, object> parameter = new()
+            {
+                {nameof(Category), category }
+            };
+            await Shell.Current.GoToAsync(nameof(ProductCategoriesView), true, parameter);
         }
 
         public override void OnAppearing()
